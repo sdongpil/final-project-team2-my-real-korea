@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="description" content="Citytours - Premium site template for city tours agencies, transfers and tickets.">
+	<meta name="author" content="Ansonika">
+	<title>마이리얼코리아-회원정보</title>
+
+	<!-- Favicons-->
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Gochi+Hand|Montserrat:300,400,700" rel="stylesheet">
+	
+	<!-- COMMON CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	<link href="css/vendors.css" rel="stylesheet">
+	
+	<!-- SPECIFIC CSS -->
+	<link href="css/admin.css" rel="stylesheet">
+	
+	<!-- CUSTOM CSS -->
+	<link href="css/custom.css" rel="stylesheet">
+	<link href="css/user.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<!-- Handlebars -->
+	<script  defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
+	<!-- Daumpost -->
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
+	<script type="text/javascript">
+
+	const phoneNumber = (target) => {
+	 target.value = target.value
+	   .replace(/[^0-9]/g, '')
+	   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+	}
+	  
+	function kakaopost() {
+		    new daum.Postcode({
+		        oncomplete: function(data) {
+		           document.querySelector("#address").value = data.address
+		        }
+		    }).open();
+	}
+	
+	function modifyImg() {
+		document.i.action = "user-img-modify-action";
+		document.i.submit();
+	} 
+	
+	function userRemove() {
+		if (confirm("정말 탈퇴하시겠습니까?")) {
+			document.f.action = "user-remove-action";
+			document.f.submit();
+		}
+	}
+	
+</script>
+
+</head>
+
+<body>
+
+	<!-- End Preload -->
+
+	<div class="layer"></div>
+	<!-- Mobile menu overlay mask -->
+
+	<!--======================== Header========================== -->
+	<div id="header" th:include="include-common-top::include-common-top"></div>
+	<!--======================== End Header======================== -->
+
+	<section class="parallax-window" data-parallax="scroll" data-image-src="img/admin_top.jpg" data-natural-width="1400" data-natural-height="470">
+		<div class="parallax-content-1">
+			<div class="animated fadeInDown">
+				<h1><a th:text="${session.loginUser.nickname}" href=''></a> 님 안녕하세요!</h1>
+			</div>
+		</div>
+	</section>
+	<!-- End section -->
+
+	<main>
+		<div id="position">
+			<div class="container">
+				<ul>
+					<li><i class="icon-home" onclick="location.href='index'"></i><a href="index"></a>
+					</li>
+					<li>내 정보 보기</li>
+				</ul>
+			</div>
+		</div>
+		<!-- End Position -->
+
+		<div class="margin_60 container">
+			<div id="tabs" class="tabs">
+				<nav>
+					<ul>
+						<li><a href="#section-1" class="icon-user-outline"><span>내 프로필</span></a>
+						</li>
+						<li><a href="#section-2" class="icon-chat-3"><span>내 리뷰</span></a>
+						</li>
+						<li><a href="#section-3" class="icon-edit"><span>내 게시글</span></a>
+						</li>
+						<li><a href="#section-4" class="icon-star-2"><span>예약 내역</span></a>
+						</li>
+					</ul>
+				</nav>
+
+				
+				<div class="content">
+<!-- section 1 start -->
+<section id="section-1">
+			
+				<img th:src="@{upload-dir/{userImgUrl}(userImgUrl=${loginUser.userImg.userImgUrl})}" 
+					 alt="Image" class="img-fluid styled profile_pic rounded-circle"  width = "200px" >
+				<div style="text-align: center; font-weight: bold; font-family: MBC1961M; ">
+					<h3><a th:text="${session.loginUser.userId}"></a></h3>
+			    </div>
+				<br>
+			
+				<form method="POST" enctype="multipart/form-data" name="i">
+				<div style="text-align: center;" class="filebox">
+				    <input class="upload-name" value="첨부파일" placeholder="첨부파일" disabled="disabled">
+				    <label class="btn_1 green" for="file"> 파일 찾기</label> 
+				    <input type="file" id="file"  name="file" >
+					<button type="submit" class="btn_1 green" id="js-upload-submit" onclick="modifyImg();">수정 완료</button>
+				    	</div>
+				</form>
+		<div class="divider"></div>
+	<br/>
+						<form method="post" name="f" id="user-detail-form">
+							<div class="row" >
+							<div class="col-md-12"> </div>
+								<input type="hidden"  id="userId" th:value = "${session.loginUser.userId}">
+							<div class="col-md-3"> </div>
+							<div class="col-md-6"> 
+							<ul id="profile_summary_userf" th:object="${loginUser}">
+								<li>이름 <span th:text="*{name}"></span>
+								</li>
+								<li>닉네임 <span th:text="*{nickname}"></span>
+								</li>
+								<li>휴대폰 <span th:text="*{phone}"></span>
+								</li>
+								<li>이메일 <span th:text="*{email}"></span>
+								</li>
+								<li>생일 <span th:text="*{#dates.format(birth, 'yyyy년 MM월 dd일')}"></span>
+								</li>
+								<li>주소 <span th:text="*{address}"></span>
+								</li>
+								<li>성별 <span th:text="*{gender == 1} ? '남' : '여'"></span>
+								</li>
+								<li>포인트 <span th:text="*{point}+'p'"></span>
+								</li>
+							</ul>
+								<br><br>
+									<h3 style ="margin-left:120px; font-family: MBC1961M;" class = "icon-vcard" > 나를 표현 해주세요 ! </h3>
+									<br>
+							<ul id="profile_summary_userf" th:object="${loginUser.userAddInfo}">
+								<li>음주 여부 
+								<span th:text="*{alcohol == 1} ? '선호함' : (*{alcohol == 2} ? '선호하지 않음' : null)"></span>
+								</li>
+								<li>흡연 여부 
+								<span th:text="*{smoking == 1} ? '흡연' : (*{smoking == 2} ? '비흡연' :  null)"></span>
+								</li>
+								<li>소개글 
+								<span th:text="*{introduce}"></span>
+								</li>
+							</ul>
+							</div>
+							</div>
+							<br><br><br>
+					<div style="text-align: center;">
+					<input id="btn-user-modify-form" value="프로필 수정" class="btn_1 green" type="button"> 
+					<button class="btn_1 green" type="button" onclick="userRemove();">회원 탈퇴</button>
+				
+                    	<th:block th:if="${session.loginUser.isAdmin==0}">
+                            <input id="btn-user-admin" value="관리자 페이지" class="btn_1 green" type="button">
+                        </th:block>
+                        <th:block th:unless="${session.loginUser.isAdmin==0}">
+                        </th:block>
+					</div>
+			</form>
+</section>
+<!-- End section 1 -->
+<!--========================= include-user-view ========================-->
+<section th:replace="include-user-view::section-2"></section>
+<section th:replace="include-user-view::section-3"></section>
+<section th:replace="include-user-view::section-4"></section>
+<!--======================= End include-user-view ========================-->
+					</div>
+					<!-- End content -->
+				</div>
+				<!-- End tabs -->
+			</div>
+			<!-- end container -->
+	</main>
+	<!-- End main -->
+	<!--========================= footer ========================-->
+	<footer class="revealed">
+		<div id="footer" th:include="include-common-bottom::include-common-bottom"></div>
+	</footer>
+		<!-- End container -->
+	<!--========================= End footer ========================-->
+
+	<div id="toTop"></div><!-- Back to top button -->
+	
+	<!-- Search Menu -->
+	<!-- End Search Menu -->
+	<!-- Sign In Popup -->
+		<!--form -->
+	<!-- /Sign In Popup -->
+
+<script id="user-modify-form-template" type="text/x-handlebars-template">
+{{#each data}}
+<form method = "POST" name = "f" id = "user-modify-form">
+		<input type="hidden"  id="userId" value="{{userId}}" >
+			<div class="row" >
+			<div class="col-md-12"> </div>
+			<div class="col-md-3"> </div>
+			<div class="col-md-8"> 
+
+				<ul id="profile_summary_user">	
+					<li>이름
+					<span>{{name}}</span>
+					</li>
+
+			<div class="form-group">
+				<li>비밀번호
+				<span><input type = "password" class ="form-control-user" name = "password" id = "password3" placeholder="8 - 12글자의 영어, 숫자, 특수문자" ></span>
+				</li>
+			</div>
+			<div class="form-group">
+				<li>비밀번호 확인
+				<span><input type = "password" class= "form-control-user" name = "password2" id = "password4"></span>
+				</li>
+			</div>
+
+				<div style="width: 63%;" id="pass-info" class="clearfix"></div>
+
+
+			{{#with passwordValidation}}
+				{{#if isActive}}
+					{{safeJS this.jsCode}}
+				{{/if}}
+			{{/with}}
+
+				<li>닉네임 
+				<span><input class = "form-control-user" type = "text" required="required" value="{{nickname}}" id = "nickname"></span>
+				</li>
+				<li>휴대폰
+				<span><input class = "form-control-user" type = "text" oninput="phoneNumber(this)" maxlength="13" required="required" value="{{phone}}" id = "phone"></span>
+				</li>
+				<li>이메일 
+				<span><input id="email" class=" form-control-user " type="text" required="required" value="{{email}}"></span>
+				</li>
+				<li>생일
+				<span><input class="start-date-pick form-control-user" data-date-format="yyyy-MM-dd" type="date" id="birth" name="birth" value="{{dateFormat3 birth}}" ></span>
+				</li>
+				<div> 
+					<li>주소 
+						<span><input id="address" class=" form-control-user " type="text" required="required" value="{{address}}" disabled > 
+							&nbsp;&nbsp; <input type="button" class="btn_1 user_address" value="주소 찾기" onclick="kakaopost()">
+						</span>
+					</li>
+				</div>
+
+				<li>성별 <span th:text="*{gender == 1} ? '남' : '여'"></span></li>
+
+		    	<li>포인트 <span>{{point}}p</span></li>
+			</ul>
+	
+
+				<ul id="profile_summary_user">
+				<br><br>
+					<h3 style ="margin-left:120px; font-family: MBC1961M;" class = "icon-vcard" > 나를 표현 해주세요 ! </h3>
+				<br>	
+			
+				<li>음주 여부 
+					<span> 
+						<div class="btn-group btn-group-toggle" data-toggle="buttons">
+							<label class="btn btn-secondary active">
+								<input type="radio" name="aOptions" id="alcohol1" checked value="1"> O
+							</label>
+
+							<label class="btn btn-secondary">
+								<input type="radio" name="aOptions" id="alcohol2" value="2"> X
+							</label>
+						</div>						
+					</span>
+				</li>
+
+				<li>흡연 여부 
+					<span> 
+						<div class="btn-group btn-group-toggle" data-toggle="buttons">
+							<label class="btn btn-secondary active">
+								<input type="radio" name="sOptions" id="smoking1" checked value="1"> O
+							</label>
+							<label class="btn btn-secondary">
+								<input type="radio" name="sOptions" id="smoking2" value="2"> X
+							</label>
+						</div>						
+					</span>
+				</li>	
+
+				<li>소개글<span><textarea id="introduce" class="form-control" rows="4" cols="40" required="required">{{userAddInfo.introduce}}</textarea></span></li>
+
+		</div>
+			</div>
+				</ul>
+			<br><br><br><br>
+
+	<div style="text-align: center;">
+	<input id="btn-user-modify-action" value="수정 완료" class="btn_1 green" type="button"> 
+	<input id="btn-user-modify-cancle" value="수정 취소" class="btn_1 green" type="button"> 
+	</div>	
+</div>	
+</div>
+			
+</form>
+{{/each}}
+
+	 
+	<script>
+
+	let isValidPassword = false;
+
+	$(document).ready(function() {
+		let password3 		= $('#password3');
+		let password4		= $('#password4');
+		let passwordsInfo2 	= $('#pass-info');
+		
+		validatePassword2(password3,password4, passwordsInfo2);
+	});
+
+	function validatePassword2(password3, password4, passwordsInfo2){
+
+
+		$(password3).on('keyup', function(e) {
+			let password3 = document.getElementById("password3").value;
+			
+			if(/[^a-zA-Z0-9~!@#$%^&*()_+,.?]/.test(password3)) {
+				const invalidChar = password3.match(/([^a-zA-Z0-9~!@#$%^&*()_+,.?])/)[1];
+				passwordsInfo2.removeClass().addClass('stillweakpass')
+				.html("허용되지 않는 문자 "+invalidChar+" 가 포함되어 있습니다.");
+			}	
+			else if(/(.)\1\1/.test(password3)) {
+				passwordsInfo2.removeClass().addClass('stillweakpass')
+				.html("같은 문자를 연속으로 3개 이상 사용할 수 없습니다.");
+			}	
+			else if(password3.length < 8 || password3.length > 12) {
+				passwordsInfo2.removeClass().addClass('weakpass')
+				.html("비밀번호는 8글자 이상 12글자 이하여야 합니다.");
+			}
+			else if(!/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()_+,.?])/.test(password3)) {
+				passwordsInfo2.removeClass().addClass('stillweakpass')
+				.html("영어, 숫자, 특수문자를 모두 포함해야 합니다.");
+			}
+			else {
+				passwordsInfo2.removeClass().addClass('goodpass')
+				.html("사용 가능한 비밀번호 입니다.");
+			    isValidPassword = true;
+			}
+			e.preventDefault();	
+		});
+		
+		$(password4).on('keyup', function(e) {
+			if(password3.val() !== password4.val()) {
+				passwordsInfo2.removeClass().addClass('weakpass').html("비밀번호 확인이 일치하지 않습니다.");	
+			}else{
+				passwordsInfo2.removeClass().addClass('goodpass').html("비밀번호 확인이 일치합니다.");
+				isValidPassword = true;	
+			}
+			e.preventDefault();	
+		});
+		return isValidPassword;
+	};
+
+		</script>
+	
+	</script>
+
+<script id="user-admin-template" type="text/x-handlebars-template">
+<table class="table table-striped">
+	<thead>
+		<tr id="admin-head-tr">
+			<td>아이디</td>
+			<td>이름</td>
+			<td>닉네임</td>
+			<td>연락처</td>
+			<td>이메일</td>
+			<td>포인트</td>
+			<td>메일 인증</td>
+			<td>회원 탈퇴</td>
+		</tr>
+	</thead>
+	<tbody>				
+		{{#each data}}
+		<tr id="admin-body-tr">
+			<td data-user-id="{{userId}}">{{userId}}</td>
+			<td>{{name}}</td>
+			<td>{{nickname}}</td>
+			<td>{{phone}}</td>
+			<td>{{email}}</td>
+			<td>{{point}}</td>
+			<td align="center">{{#if mailAuth}}인증{{else}}미인증{{/if}}</td>
+			<td><input class="btn-admin-remove btn_1 outline" data-user-Id="{{userId}}" value="회원 탈퇴" type="button"></td>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>
+</script>
+
+
+	<!-- Common scripts -->
+	<script src="js/jquery-2.2.4.min.js"></script>
+	<script src="js/common_scripts_min.js"></script>
+	<script src="js/functions.js"></script>
+	<script src="js/app_user.js" type="module"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> 
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+	<!-- Specific scripts -->
+	<script src="js/tabs.js"></script>
+	
+	
+	<script>
+		new CBPFWTabs(document.getElementById('tabs'));
+	</script>
+	<script>
+		$('.wishlist_close_admin').on('click', function (c) {
+			$(this).parent().parent().parent().fadeOut('slow', function (c) {});
+		});
+
+	</script>
+	
+	<!-- Date and time pickers -->
+	<script src="js/jquery.sliderPro.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function ($) {
+			$('#Img_carousel').sliderPro({
+				width: 960,
+				height: 500,
+				fade: true,
+				arrows: true,
+				buttons: false,
+				fullScreen: false,
+				smallSize: 500,
+				startSlide: 0,
+				mediumSize: 1000,
+				largeSize: 3000,
+				thumbnailArrows: true,
+				autoplay: false
+			});
+		});
+	</script>
+
+	<!-- Date and time pickers -->
+	<script>
+		$('input.date-pick').datepicker('birth');
+	</script>
+	
+	
+	<!-- Date and time pickers -->
+	<script src="js/jquery.sliderPro.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function ($) {
+			$('#Img_carousel').sliderPro({
+				width: 960,
+				height: 500,
+				fade: true,
+				arrows: true,
+				buttons: false,
+				fullScreen: false,
+				smallSize: 500,
+				startSlide: 0,
+				mediumSize: 1000,
+				largeSize: 3000,
+				thumbnailArrows: true,
+				autoplay: false
+			});
+		});
+		
+		
+		$('#tab li:first-child button').tab('show')
+	</script>
+
+</body>
+
+</html>

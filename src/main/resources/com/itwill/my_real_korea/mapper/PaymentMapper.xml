@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwill.my_real_korea.mapper.PaymentMapper">
+    <resultMap id="paymentResultMap" type="com.itwill.my_real_korea.dto.Payment" autoMapping="true">
+        <association property="ticket" javaType="com.itwill.my_real_korea.dto.ticket.Ticket" autoMapping="true"> </association>
+        <association property="tour" javaType="com.itwill.my_real_korea.dto.tour.Tour" autoMapping="true"> </association>
+    </resultMap>
+<!-- 1-1. 티켓주문하기 (예약하기)  -->
+	<!--
+	<insert id="insertTicketPayment" parameterType="com.itwill.my_real_korea.dto.Payment">
+		<selectKey resultType="java.lang.Integer" keyProperty="pNo" order="BEFORE">
+			select payment_p_no_seq.nextval from dual
+		</selectKey>
+		insert into payment(p_no,p_price,p_qty,p_date,p_start_date,p_point,p_method,to_no,ti_no,user_id)
+		values(#{pNo},#{pPrice},#{pQty},sysdate,#{pStartDate},#{pPoint},0,null,#{ticket.tiNo},#{userId})
+	</insert>
+	-->
+	<insert id="insertTicketPayment" parameterType="com.itwill.my_real_korea.dto.Payment">
+		<selectKey resultType="java.lang.Integer" keyProperty="pNo" order="BEFORE">
+			select payment_p_no_seq.nextval from dual
+		</selectKey>
+		insert into payment(p_no,p_price,p_qty,p_date,p_start_date,p_msg,p_point,p_method,to_no,ti_no,user_id)
+		values(#{pNo},#{pPrice},#{pQty},sysdate,#{pStartDate},#{pMsg},#{pPoint},#{pMethod},null,#{ticket.tiNo},#{userId})
+	</insert>
+	 <!-- 주문 수정 -->
+	 <update id="updatePayment" parameterType="com.itwill.my_real_korea.dto.Payment">
+	 	update payment
+	 	set p_method = #{pMethod}
+	 	  , p_msg = #{pMsg}
+	 	where p_no = #{pNo}
+	 </update>
+	 
+	 
+<!-- 1-2. 투어주문하기 (예약하기)  -->
+	<insert id="insertTourPayment" parameterType="com.itwill.my_real_korea.dto.Payment">
+		<selectKey resultType="java.lang.Integer" keyProperty="pNo" order="BEFORE">
+			select payment_p_no_seq.nextval from dual
+		</selectKey>
+		insert into payment(p_no,p_price,p_qty,p_date,p_start_date,p_msg,p_point,p_method,to_no,ti_no,user_id)
+		values(#{pNo},#{pPrice},#{pQty},sysdate,#{pStartDate},#{pMsg},#{pPoint},#{pMethod},#{tour.toNo},null,#{userId})
+	</insert>
+    <!-- 내 예약 보기 -->
+    <select id="selectAllUser" parameterType="String" resultMap="paymentResultMap">
+            SELECT P.*, TI.*, TR.*
+            FROM PAYMENT P
+                     LEFT JOIN TICKET TI ON TI.TI_NO = P.TI_NO
+                     LEFT JOIN TOUR TR ON TR.TO_NO = P.TO_NO
+            WHERE P.USER_ID=#{userId} ORDER BY P_start_date DESC
+    </select>
+
+    <!--예약 상세보기 - 번호 누르면 -->
+        <select id="selectPaymentNo" parameterType="java.lang.Integer" resultMap="paymentResultMap">
+            SELECT P.*, TI.*, TR.*
+            FROM PAYMENT P
+                     LEFT JOIN TICKET TI ON TI.TI_NO = P.TI_NO
+                     LEFT JOIN TOUR TR ON TR.TO_NO = P.TO_NO
+            WHERE P_NO = #{pNo}
+        </select>
+    
+    <!-- 주문 취소-->
+    <delete id="deletePayment" parameterType="java.lang.Integer">
+        DELETE FROM PAYMENT WHERE P_NO=#{pNo}
+    </delete>
+<!-- 4. 사용자의 가장 최근 주문 조회하기 -->
+	<select id="findLatestPaymentByUserId" parameterType="java.lang.String" resultType="com.itwill.my_real_korea.dto.Payment">
+		select *
+		from (select * from payment order by p_no desc)
+		where user_id='${userId}' and rownum=1
+	</select>
+</mapper>

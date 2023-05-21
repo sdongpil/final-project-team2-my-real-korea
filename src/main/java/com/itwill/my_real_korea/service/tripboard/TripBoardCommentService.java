@@ -1,0 +1,48 @@
+package com.itwill.my_real_korea.service.tripboard;
+
+import java.util.List;
+
+import com.itwill.my_real_korea.dto.tripboard.TripBoardComment;
+
+public interface TripBoardCommentService {
+	/*
+	 * 댓글 추가
+	 */
+	int insertTripBoardComment(TripBoardComment tripBoardComment) throws Exception;
+	
+	/*
+	 * 댓글 수정
+	 */
+	int updateTripBoardComment(TripBoardComment tripBoardComment) throws Exception;
+	
+	/*
+	 * 댓글 삭제
+	 */
+	int deleteTripBoardComment(int tCoNo) throws Exception;
+	
+	/*
+	 * 댓글 1개 보기
+	 */
+	TripBoardComment selectByNo(int tCoNo) throws Exception;
+	
+	/*
+	 * N번 게시글의 댓글 전체 보기
+	 */
+	List<TripBoardComment> selectAllByTBoNo(int tBoNo) throws Exception;
+	
+	/*
+	 * 댓글 총 개수
+	 */
+	int selectAllCount() throws Exception;
+	
+	/*
+	 * 댓글 갯수 1개보기
+	 */
+	int selectCommentCount(int tBoNo) throws Exception;
+	
+	/*
+	 * 동행게시판에서 댓글 번호 가져오기
+	 */
+	List<TripBoardComment> selectBytBoNo(int tBoNo) throws Exception;
+	
+}

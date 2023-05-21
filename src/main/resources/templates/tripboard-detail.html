@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="description" content="Citytours - Premium site template for city tours agencies, transfers and tickets.">
+	<meta name="author" content="Ansonika">
+	<title>마이리얼코리아-동행게시판 상세</title>
+
+	<!-- Favicons-->
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Gochi+Hand|Montserrat:300,400,700" rel="stylesheet">
+	
+	<!-- COMMON CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	<link href="css/vendors.css" rel="stylesheet">
+	
+	<!-- CSS -->
+	<link href="css/blog.css" rel="stylesheet">
+	
+	<!-- CUSTOM CSS -->
+	<link href="css/custom.css" rel="stylesheet">
+	<script type="text/javascript">
+		function tripboardCommentWriteAction(){
+			if (document.tt.tCommentContent.value == ""){
+				alert("내용을 입력하십시요.");
+				document.tt.tCommentContent.focus();
+				return false;
+			}
+			document.tt.action = "tripboard-comment-write-action";
+			document.tt.method = 'POST';
+			document.tt.submit();
+		}
+	</script>
+	<!-- Handlebars -->
+	<script  defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
+	
+	<style>
+	ul{
+	margin-left:-40px;	
+	}
+	li {
+	list-style-type: none;
+	}
+	.post-left {
+	float:none;
+	}
+	#chat-icon {
+		position: fixed;
+	    bottom: 100px;
+	    right: 10px;
+	    width: 80px;
+	    height: 80px;
+	    background-color : white;
+	    border-radius: 100px;
+	    border: 3px solid white;
+	}
+	
+	#chat-img{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+	}
+	</style>
+	
+</head>
+
+<body>
+
+
+	<div class="layer"></div>
+	<!-- Mobile menu overlay mask -->
+
+	<!--======================== Header========================== -->
+	<div id="header" th:include="include-common-top::include-common-top"></div>
+	<!--======================== End Header======================== -->
+
+
+	<section class="parallax-window" data-parallax="scroll" data-image-src="img/tripboard/tripboard_big.png" data-natural-width="1400" data-natural-height="470">
+		<div class="parallax-content-1">
+			<div class="animated fadeInDown">
+				<h1><a id="tripboard-list-main" href="tripboard-list">동행 게시판</a></h1>
+				<p>마이리얼코리아에서 동행을 찾아보세요</p>
+			</div>
+		</div>
+	</section>
+	<!-- End section -->
+
+	<main>
+		<div id="position">
+			<div class="container">
+				<ul>
+					<li><i class="icon-home" onclick="location.href='index'"></i><a href="index"></a>
+               	 </li>
+                <li><a href="tripboard-list">동행찾기</a>
+                </li>
+                <li>상세보기</li>
+				</ul>
+			</div>
+		</div>
+		<!-- End position -->
+		<div class="container margin_60">
+			<div class="row">
+
+				<div class="col-lg-9">
+					<div class="box_style_1">
+						<div class="post nopadding">
+						
+								<!-- 동행게시판 제목 들어가는 곳 -->
+								<ul>
+								<li><h2 th:text="${tripBoard.tBoTitle}"></h2></li>
+								</ul>
+								
+							<div class="post_info clearfix" >
+								<div class="post-left" >
+									<div class="avatar">
+		                                <a href="user-view"><img src="img/defaultImg_s.png" class="img-fluid styled profile_pic2 rounded-circle" alt="Image" style="margin-top: 0px"></a>
+		                            </div>
+									<ul>
+										<li style="padding:9px 0px 5px 0px;">
+										 <i class = "icon-user"></i>작성자<span th:text="${tripBoard.userId}" style="padding:0px 10px 0px 10px;"></span>
+										   <i class="icon-calendar-empty"></i> 작성일  
+										   <span th:text="${#dates.format(tripBoard.tBoDate,'yyyy.MM.dd')}" style="padding:0px 10px 0px 10px;">12 Nov 2020</span>
+										</li>
+										<li style="padding:5px 0px 5px 0px;" >
+											<i class="icon-users"></i>모집인원<span th:text="${tripBoard.tBoPerson}" style="padding:0px 10px 0px 10px;"></span>
+										   <i class="icon-calendar-empty"></i>여행일정<a th:text="${#dates.format(tripBoard.tBoStartDate, 'MM.dd')}" 
+										   style="padding:0px 10px 0px 10px; color:#ff6666;"></a><a style="color:#ff6666;"> ~ </a><a th:text="${#dates.format(tripBoard.tBoEndDate, 'MM.dd')}" 
+										   style="padding:0px 10px 0px 10px;color:#ff6666;"></a>
+										   <i class="icon-map"></i>지역<span th:text="${tripBoard.city.cityName}" style="padding:0px 10px 0px 10px;">12 Nov 2020</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<br>
+							<div> 
+								<ul>
+									<li style="padding:5px 0px; font-family: NotoSansKR, Noto Sans CJK KR, sans-serif; font-size:16px; font-weight:bold;">
+									<i class = "icon-ok" ></i>저는 <a th:text="${tripBoard.tBoStyle}" style="color:#ff6666; font-weight:600;"></a> 여행자 입니다.
+									</li>
+								</ul>
+							</div>
+							<br>
+							<br>
+							<br>
+							
+							<!-- 동행게시판 내용 들어가는 곳 -->
+							<div>
+								<ul>
+								
+									<li><p th:text="${tripBoard.tBoContent}" style="white-space:pre-line; font-size:18px;"></p></li>
+								</ul>
+							</div>
+							<br>
+							<br>
+							<div th:if="${tripBoard.tBoImg}">
+							<img th:src="@{img/tripboard/{tBoImg}(tBoImg=${tripBoard.tBoImg})}"  alt="Image" class="img-fluid">
+						</div>
+						<div th:if="${tripBoard.tUploadFile}">
+							<img th:src="@{tripboardimages/{tUploadFile}(tUploadFile=${tripBoard.tUploadFile})}"  alt="Image" class="img-fluid">
+						</div>
+							<br>
+							<div class="post-left" style="padding-bottom:20px;">
+									<ul>
+										<li style="padding:5px 0px;">
+										 <i class = "icon-tag"></i><a style="color:#666;" th:text="${tripBoard.hashtag}"></a>
+										</li>
+										
+										<li style="padding:5px 0px;">
+											<i class="icon-comment"></i><span th:text="${selectCommentCount}" style="padding:0px 10px 0px 10px;"></span>
+										</li>
+									</ul>
+								</div>
+							<div th:if="${loginUser != null && loginUser.userId == tripBoard.userId}" style="text-align:right;" >
+							  	<a th:href="@{/tripboard-modify-form(tBoNo=${tripBoard.tBoNo})}" class="btn btn-secondary">수정</a>
+							  	<a th:href="@{/tripboard_delete(tBoNo=${tripBoard.tBoNo})}" class="btn btn-secondary" id="tripboard-delete-action-btn">삭제</a>
+								<input type="hidden" id="delete-tBoNo" th:value=${tripBoard.tBoNo}>
+							</div>
+							
+						</div>
+			
+							
+						
+				
+					</div>
+					 <!-- end post -->
+		
+					
+					<!-- end box_style_1 -->
+					
+					
+					
+					
+
+					<div id="comments">
+                    <ol>
+                    	<li>
+                        <div class="review_strip_single" id="tripboardcomment-detail" th:each="tripBoardComment:${tripBoardCommentList}">
+                            <div class="avatar">
+                                <a href="user-view"><img src="img/defaultImg_s.png" class="img-fluid styled profile_pic2 rounded-circle" alt="Image"></a>
+                            </div>
+
+                            <div>
+                                <small name="tCoDate"
+                                       th:text="${#dates.format(tripBoardComment.tCommentDate, 'yyyy-MM-dd')}"></small>
+                                <h4 style="font-size:20px; line-height:35px;" name="tCoUserId" th:text="${tripBoardComment.userId}"></h4>
+                                <br>
+                                <p name="tCoContent" th:text="${tripBoardComment.tCommentContent}" style="white-space:pre-line; font-size:17px;"></p>
+								<br>
+                                <div th:if="${loginUser != null && loginUser.userId == tripBoardComment.userId}">
+                                    <a class="btn_1" href="" role="button" th:data-value="${tripBoardComment.tCoNo}"
+                                       id="tripboardcomment-modify-form-btn">수정</a>
+                                    <input type="hidden" id="tCoNo-hidden-value"
+                                           th:value="${tripBoardComment.tCoNo}"/>
+                                    <a class="btn_1" href="" role="button" th:data-value="${tripBoardComment.tCoNo}"
+                                       id="comment_btn_delete">삭제</a>
+                                  
+                                    <input type="hidden" id="tBoNo-hidden-value"
+                                           th:value="${tripBoard.tBoNo}"/>
+                                </div>
+                            </div>
+                            </div>
+                    </ol>
+                </div>
+					<!-- End Comments -->
+
+					<h4>댓글</h4>
+					<form name="tt" method="post">
+						<input type="hidden" name="tCoNo" value="10"/>
+						<input type="hidden" name="tBoNo" value="" th:value="${tripBoard.tBoNo}"/>
+					    <div th:if="${loginUser != null}">
+					    <input type="hidden" name="userId" value="user1" th:value="${loginUser.userId}"/>
+					    </div>
+						<div class="form-group">
+							<textarea  class="form-control style_2" style="height:150px;" placeholder="댓글을 써주세요." name="tCommentContent"></textarea>
+						</div>
+						<div class="form-group">
+							
+							<button class="btn_1" type="button" onclick="tripboardCommentWriteAction();">등록</button>
+						</div>
+					</form>
+				</div>
+				<!-- End col-md-8-->
+
+				<aside class="col-lg-3 add_bottom_30">
+
+					<div class="widget" id="cat_blog">
+						<h4>CLICK</h4>
+						<ul>
+							<li><a href="tripboard-list">목록으로 돌아가기</a>
+							</li>
+						</ul>
+					</div>
+					<hr>
+			
+					
+					<br>
+					<br>
+					<div class="widget tags">
+						<h4>Tags</h4>
+						<a href="ticket-list">티켓</a>
+						<a href="tour-list">투어</a>
+						<a href="freeboard-list">자유게시판</a>
+						<a href="notice-list">공지사항</a>
+						<a href="user-view">마이페이지</a>
+					</div>
+					<hr>
+					<br>
+										<div class="box_style_2">
+						<i class="icon_set_1_icon-57"></i>
+						<br>
+						<h6>도움이 필요하신가요?</h6>
+						<a href="tel://004542344599" class="phone">+82 423 445 99</a>
+						<small>월 ~ 금 9.00am - 7.30pm</small>
+					</div>
+					<!-- Chat icon (민선) -->
+					<div id="chat-icon-top" class="chat-icon-top">
+							<input id="chat-tripboard-userId" type="hidden" th:value="${tripBoard.userId}">
+					   		<a href="#" id="chat-pop-up-click" >
+					   			<img src="img/messenger2.png" id="messenger-icon"></a>
+						<h1>1:1 채팅</h1>
+					</div>
+					<!-- End Chat icon -->
+					<!-- End widget -->
+
+					
+				</aside>
+				<!-- End aside -->
+
+			</div>
+			<!-- End row-->
+			
+		</div>
+		<!-- End container -->
+	</main>
+	<!-- End main -->
+	
+	<!--========================= footer ========================-->
+	<footer class="revealed">
+		<div id="footer" th:include="include-common-bottom::include-common-bottom"></div>
+	</footer>
+		<!-- End container -->
+	<!--========================= End footer ========================-->
+	
+	<div id="toTop"></div><!-- Back to top button -->
+	
+	<!-- Search Menu -->
+	<div class="search-overlay-menu">
+		<span class="search-overlay-close"><i class="icon_set_1_icon-77"></i></span>
+		<form role="search" id="searchform" method="get">
+			<input value="" name="q" type="search" placeholder="Search..." />
+			<button type="submit"><i class="icon_set_1_icon-78"></i>
+			</button>
+		</form>
+	</div><!-- End Search Menu -->
+	
+	<!-- Sign In Popup -->
+	<div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+		<div class="small-dialog-header">
+			<h3>Sign In</h3>
+		</div>
+		<form>
+			<div class="sign-in-wrapper">
+				<a href="#0" class="social_bt facebook">Login with Facebook</a>
+				<a href="#0" class="social_bt google">Login with Google</a>
+				<div class="divider"><span>Or</span></div>
+				<div class="form-group">
+					<label>Email</label>
+					<input type="email" class="form-control" name="email" id="email">
+					<i class="icon_mail_alt"></i>
+				</div>
+				<div class="form-group">
+					<label>Password</label>
+					<input type="password" class="form-control" name="password" id="password" value="">
+					<i class="icon_lock_alt"></i>
+				</div>
+				<div class="clearfix add_bottom_15">
+					<div class="checkboxes float-left">
+						<input id="remember-me" type="checkbox" name="check">
+						<label for="remember-me">Remember Me</label>
+					</div>
+					<div class="float-right"><a id="forgot" href="javascript:void(0);">Forgot Password?</a></div>
+				</div>
+				<div class="text-center"><input type="submit" value="Log In" class="btn_login"></div>
+				<div class="text-center">
+					Don’t have an account? <a href="javascript:void(0);">Sign up</a>
+				</div>
+				<div id="forgot_pw">
+					<div class="form-group">
+						<label>Please confirm login email below</label>
+						<input type="email" class="form-control" name="email_forgot" id="email_forgot">
+						<i class="icon_mail_alt"></i>
+					</div>
+					<p>You will receive an email containing a link allowing you to reset your password to a new preferred one.</p>
+					<div class="text-center"><input type="submit" value="Reset Password" class="btn_1"></div>
+				</div>
+			</div>
+		</form>
+		<!--form -->
+	</div>
+	<!-- /Sign In Popup -->
+	<script id="tripBoardCommentModifyForm" type="text/x-handlebars-template">
+    {{#each data}}
+            <div class="review_strip_single">
+                <div class="avatar">
+                    <a href="#"><img src="img/defaultImg_s.png" class="img-fluid styled profile_pic2 rounded-circle" alt="Image"></a>
+                </div>
+                <div>
+                    <small name="tCoDate2"
+                    >{{dateFormat tcommentDate}}</small>
+                    <h4 name="tCoUserId2">{{userId}}</h4>
+                    <textarea class="form-control style_2" style="margin-bottom:10px;"  name="tCoContent2">{{tcommentContent}}</textarea>
+                    <a class="btn_1" href="" role="button" data-value={{tcoNo}}
+                       id="tripboardcomment-modify-action-btn">수정완료</a>
+                    <a href="tripboard-detail?tBoNo={{tboNo}}" class="btn_1">취소</a>
+
+                    <input type="hidden" id="tBoNo-hidden-value2"
+                           value="{{tboNo}}"/>
+                    
+                </div>
+            </div>
+    {{/each}}
+</script>
+<script id="tripBoardCommentModifyAction" type="text/x-handlebars-template">
+    {{#each data}}
+		<div class="review_strip_single" id="tripboardcomment-detail"    >
+			
+                <div class="avatar">
+                     <a href="#"><img src="img/avatar1.jpg" alt="Image"></a>
+                </div>
+
+                <div class="form-group">
+                     <small name="tCoDate">{{dateFormat tcommentDate}}</small>
+                       <h4 name="tCoUserId">{{userId}}</h4>
+                         <p name="tCoContent">{{tcommentContent}}</p>
+						{{#ifCond session.loginUser.userId "==" tripBoardComment.userId}}
+                           <a class="btn_1" href="" role="button" data-value={{tcoNo}}
+                                  id="tripboardcomment-modify-form-btn">수정</a>
+                             <input type="hidden" id="tCoNo-hidden-value"
+                                 value={{tcoNo}}/>
+                                <a class="btn_1" href="" role="button" data-value={{tcoNo}}
+                                id="comment_btn_delete">삭제</a>
+                             <input type="hidden" id="tBoNo-hidden-value2"
+                                   value={{tboNo}}/>
+						{{/ifCond}}
+                 </div>
+       </div>
+    {{/each}}
+   
+</script>
+	<!-- Common scripts -->
+	<script src="js/jquery-2.2.4.min.js"></script>
+	<script src="js/common_scripts_min.js"></script>
+	<script src="js/functions.js"></script>
+	<script src="js/app_tripboard.js" type="module"></script>
+	<script src="js/app_chat_tripboard.js" type="module"></script>
+
+ <script>
+  
+    const modal = document.getElementById("modal")
+    
+    function modalOn() {
+        modal.style.display = "flex"
+    }
+    function isModalOn() {
+        return modal.style.display === "flex"
+    }
+    function modalOff() {
+        modal.style.display = "none"
+    }
+    
+    const btnModal = document.getElementById("btn-modal")
+    btnModal.addEventListener("click", e => {
+        modalOn()
+    })
+    
+    /*
+    const closeBtn = modal.querySelector(".close-area")
+    closeBtn.addEventListener("click", e => {
+        modalOff()
+    })
+    modal.addEventListener("click", e => {
+        const evTarget = e.target
+        if(evTarget.classList.contains("modal-overlay")) {
+            modalOff()
+        }
+    })
+    window.addEventListener("keyup", e => {
+        if(isModalOn() && e.key === "Escape") {
+            modalOff()
+        }
+    })
+    */
+    </script>
+
+</body>
+
+</html>

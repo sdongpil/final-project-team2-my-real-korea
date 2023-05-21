@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Citytours - Premium site template for city tours agencies, transfers and tickets.">
+    <meta name="author" content="Ansonika">
+    <title>마이리얼코리아-티켓 예약</title>
+
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Gochi+Hand|Montserrat:300,400,700" rel="stylesheet">
+
+    <!-- COMMON CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	<link href="css/vendors.css" rel="stylesheet">
+	
+	<!-- CUSTOM CSS -->
+	<link href="css/custom.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<div class="layer"></div>
+	<!-- Mobile menu overlay mask -->
+
+	<!--======================== Header========================== -->
+	<div id="header" th:include="include-common-top::include-common-top"></div>
+	<!--======================== End Header======================== -->
+	<section id="hero_2">
+		<div class="intro_title">
+			<h1>예약페이지</h1>
+			<div class="bs-wizard row">
+
+				<div class="col-4 bs-wizard-step complete">
+					<div class="text-center bs-wizard-stepnum">티켓 상세보기</div>
+					<div class="progress">
+						<div class="progress-bar"></div>
+					</div>
+					<a href="cart_hotel.html" class="bs-wizard-dot"></a>
+				</div>
+
+				<div class="col-4 bs-wizard-step active">
+					<div class="text-center bs-wizard-stepnum">티켓 예약하기</div>
+					<div class="progress">
+						<div class="progress-bar"></div>
+					</div>
+					<a href="#" class="bs-wizard-dot"></a>
+				</div>
+
+				<div class="col-4 bs-wizard-step disabled">
+					<div class="text-center bs-wizard-stepnum">티켓 예약완료</div>
+					<div class="progress">
+						<div class="progress-bar"></div>
+					</div>
+					<a href="confirmation_hotel.html" class="bs-wizard-dot"></a>
+				</div>
+
+			</div>
+			<!-- End bs-wizard -->
+		</div>
+		<!-- End intro-title -->
+	</section>
+	<!-- End Section hero_2 -->
+	
+	<main>
+		<div id="position">
+			<div class="container">
+				<ul>
+					<li><i class="icon-home" onclick="location.href='index'"></i><a href="index"></a>
+                </li>
+                <li><a href="ticket-list">티켓리스트</a>
+                </li>
+					<li><a th:href="@{ticket-detail(tiNo=${session.ticket.tiNo})}">상세보기</a>
+					</li>
+					<li>예약하기</li>
+				</ul>
+			</div>
+		</div>
+		<!-- End position -->
+
+<!-- ------------------------------- -->
+<!-- Start  Payment Form                    	티켓 결제 액션-->
+		<form th:object="${rsPInfo}" name="f" id="pForm" method="POST" class="was-validated">
+		<input type="hidden" name="userId" th:value="${session.loginUser.userId}">
+		<input type="hidden" name="pPrice" th:value="${session.payment.pPrice}">
+		<input type="hidden" name="pPoint" th:value="${session.payment.pPoint}">
+		<input type="hidden" name="amount" id="amount" value="0">
+		<input type="hidden" name="newPoint" id="newPoint" value="">
+		<div class="container margin_60">
+						<div class="row" >
+				<div class="col-lg-8 add_bottom_15">
+					<div  class="strip_all_tour_list wow fadeIn" data-wow-delay="0.1s" >
+						<div class="row" >
+							<div class="col-lg-4 col-md-4">
+								<div  class="img_list">
+									<a th:href="@{ticket-detail(tiNo=${session.ticket.tiNo})}">
+										<img th:src="@{{tiImgUrl}(tiImgUrl=${session.ticketImgList.get(0).tiImgUrl})}" alt="Image">
+									</a>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6">
+								<div class="tour_list_desc">
+									<div class="rating">
+									</div>
+									<div>
+									<br>
+									<br>
+									<h3><strong  th:text="${session.ticket.tiTitle}"></strong> </h3>
+									<br>
+									</div>
+									<ul class="add_info">
+										<li>
+											<div class="tooltip_styled tooltip-effect-4">
+												<span class="tooltip-item"><i class="icon_set_1_icon-83"></i></span>
+												<div class="tooltip-content">
+													<h4>티켓 안내사항</h4>
+													<p th:text="${session.ticket.tiNotice}"> </p>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="col-lg-2 col-md-2" style="padding: 0px;">
+								<div class="price_list" id="wishlist-detail-btn">
+									<div>
+										<div><sup th:text="'&nbsp;&nbsp;'+${#numbers.formatInteger(session.ticket.tiPrice,3,'COMMA') + '원'} " style="font-size:20px"></sup>
+												<small>* 1인 기준</small>
+										</div>
+									</div>
+							</div>
+						</div>
+					</div>
+					</div>
+					
+					<div class="form_title">
+						<h3><strong>1</strong>예약확인</h3>
+						<p>
+							예약자의 정보를 입력 해 주세요. 
+						</p>
+					</div>
+					<div class="step">
+						<div class="row">
+							<div class="col-sm-8">
+								<div class="form-group">
+									<label> 성함 </label>
+									<input type="text" class="form-control" name="rsPName" th:value="${session.loginUser.name}" placeholder="이름을 입력해주세요" required>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label> 이메일 </label>
+									<input type="email" id="email_booking" name="rsPEmail" class="form-control" th:value="${session.loginUser.email}" placeholder="이메일을 입력해주세요" required>
+								</div>
+										<div class="invalid-feedback">
+									        이메일 형식으로 입력해야 합니다.
+									      </div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label> 이메일 확인 </label>
+									<input type="email" id="email_booking_2" name="email_booking_2" class="form-control" placeholder="이메일을 입력해주세요" required>
+									<div class="form-text confirm-message"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label> 전화번호 </label>
+									<input type="text" id="telephone_booking" name="rsPPhone" class="form-control" th:value="${session.loginUser.phone}" placeholder="전화번호를 입력해주세요" required>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!--End step -->
+					
+					<div class="form_title">
+						<h3><strong>2</strong> 요청사항 </h3>
+					</div>
+					<div class="step">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="form-group">
+									<textarea id="city_booking" name="pMsg" class="form-control" placeholder="요청사항을 작성 해 주세요(선택사항)"></textarea>
+								</div>
+							</div>
+							<br>
+							<br>
+							<div class="col-lg-8">
+								<div>
+									<input id="usedPoint" type="number" class="form-control" style="width:40%; display:inline-block;" value="0" min="0" th:max="${session.loginUser.point}" step="1000">
+									<input id="nowPoint" type="hidden" th:value="${session.loginUser.point}">
+									<input id="totPrice" type="hidden" th:value="${session.payment.pPrice}">
+									<button id="usePointBtn" type="button" class="btn btn-warning">사용</button>
+									<span>&nbsp;&nbsp;사용 가능한 포인트 : </span>
+									<span id="nowPoint2" th:text="${session.loginUser.point}"></span>
+								</div>
+									<span style="font-size:12px; color:#898484;">(포인트는 1000p 단위로 사용 가능합니다)</span>
+							</div>
+							<div class="col-lg-4" >
+								<div class="form-group">
+										<select class="form-control" name="pMethod" id="pMethod" required>
+											<option value="" disabled hidden>결제방법</option>
+											<option value="1">계좌이체</option>
+											<option value="2" selected>카드결제</option>
+										</select>
+								</div>
+							</div>
+							</div>
+						<!--End row -->
+						<br>
+						<br>
+						<br>
+						<div id="policy" style="padding:0px;">
+						<h4>취소 및 환불 규정</h4>
+						<div class="form-group">
+							<label>
+								<input type="checkbox" name="policy_terms" id="policy_terms" required>아래의 취소 및 환불 규정을 확인 후 동의하였습니다.
+							</label>
+						</div>
+					</div>
+					</div>
+					<!--End step -->
+		</div>
+				<aside class="col-lg-4">
+					<div class="box_style_1">
+						<h3 class="inner">- 상세보기 -</h3>
+						<table class="table table_summary"  id="tableSummaryH">
+							<tbody>
+								<tr>
+									<td>예약 날짜</td>
+									<td class="text-right" th:text="${#dates.format(session.payment.pStartDate,'yyyy-MM-dd')}"></td>
+								</tr>
+								<tr>
+									<td>티켓 가격 (개)</td>
+									<td class="text-right" th:text="${session.payment.pQty}">0</td>
+								</tr>
+								<tr>
+									<td>금액</td>
+									<td class="text-right" th:text="${#numbers.formatInteger(session.payment.pPrice,3,'COMMA')} + '원' "></td>
+								</tr>
+								<tr>
+									<td>사용포인트</td>
+									<td class="text-right" id="usingPoint2">0</td>
+								</tr>
+								<tr class="total">
+									<td>총 금액</td>
+									<td class="text-right" id="totPrice2" th:text="${#numbers.formatInteger(session.payment.pPrice,3,'COMMA')} + '원' ">
+									</td>
+								</tr>
+								<tr>
+									<td>적립 포인트</td>
+									<td class="text-right" id="savePoint2" th:text="${session.payment.pPoint}">0
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						
+						<button class="btn_full" type="button" id="ticketPayment" onclick="ticket_payment_complete_action()">예약하기 </button>
+						<a class="btn_full_outline" th:href="@{ticket-detail(tiNo=${session.ticket.tiNo})}"><i class="icon-right"></i> 티켓상세보기</a>
+					</div>
+					<div class="box_style_2">
+						<i class="icon_set_1_icon-57"></i>
+						<br>
+						<h6>도움이 필요하신가요?</h6>
+						<a href="tel://004542344599" class="phone">+82 423 445 99</a>
+						<small>월 ~ 금 9.00am - 7.30pm</small>
+					</div>
+				</aside>
+			</div>
+			</div>
+		</form>
+			<!--End row -->
+		<!-- End Form -->
+		<!--End container -->
+	</main>
+	<!-- End main -->
+	<!--========================= footer ========================-->
+	<footer class="revealed">
+		<div id="footer" th:include="include-common-bottom::include-common-bottom"></div>
+	</footer>
+		<!-- End container -->
+	<!--========================= End footer ========================-->
+
+	<div id="toTop"></div><!-- Back to top button -->
+	
+	<!-- Search Menu -->
+	<div class="search-overlay-menu">
+		<span class="search-overlay-close"><i class="icon_set_1_icon-77"></i></span>
+		<form role="search" id="searchform" method="get">
+			<input value="" name="q" type="search" placeholder="Search..." />
+			<button type="submit"><i class="icon_set_1_icon-78"></i>
+			</button>
+		</form>
+	</div><!-- End Search Menu -->
+	
+	<!-- Sign In Popup -->
+	<div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+		<div class="small-dialog-header">
+			<h3>Sign In</h3>
+		</div>
+		<form>
+			<div class="sign-in-wrapper">
+				<a href="#0" class="social_bt facebook">Login with Facebook</a>
+				<a href="#0" class="social_bt google">Login with Google</a>
+				<div class="divider"><span>Or</span></div>
+				<div class="form-group">
+					<label>Email</label>
+					<input type="email" class="form-control" name="email" id="email">
+					<i class="icon_mail_alt"></i>
+				</div>
+				<div class="form-group">
+					<label>Password</label>
+					<input type="password" class="form-control" name="password" id="password" value="">
+					<i class="icon_lock_alt"></i>
+				</div>
+				<div class="clearfix add_bottom_15">
+					<div class="checkboxes float-left">
+						<input id="remember-me" type="checkbox" name="check">
+						<label for="remember-me">Remember Me</label>
+					</div>
+					<div class="float-right"><a id="forgot" href="javascript:void(0);">Forgot Password?</a></div>
+				</div>
+				<div class="text-center"><input type="submit" value="Log In" class="btn_login"></div>
+				<div class="text-center">
+					Don’t have an account? <a href="javascript:void(0);">Sign up</a>
+				</div>
+				<div id="forgot_pw">
+					<div class="form-group">
+						<label>Please confirm login email below</label>
+						<input type="email" class="form-control" name="email_forgot" id="email_forgot">
+						<i class="icon_mail_alt"></i>
+					</div>
+					<p>You will receive an email containing a link allowing you to reset your password to a new preferred one.</p>
+					<div class="text-center"><input type="submit" value="Reset Password" class="btn_1"></div>
+				</div>
+			</div>
+		</form>
+		<!--form -->
+	</div>
+	<!-- /Sign In Popup -->
+
+	<!-- Common scripts -->
+	<script src="js/jquery-2.2.4.min.js"></script>
+	<script src="js/common_scripts_min.js"></script>
+	<script src="js/functions.js"></script>
+	<script src="js/app_ticket.js" type="module"></script>
+	<script src="js/app.js" type="module"></script>
+	
+	<!-- Check box and radio style iCheck -->
+	<script>
+		$('input').iCheck({
+		   checkboxClass: 'icheckbox_square-grey',
+		   radioClass: 'iradio_square-grey'
+		 });
+	</script>
+	
+		<!-- portone -->
+	<!-- iamport.payment.js -->
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> -->
+	<script>
+		console.log("[[${session.payment}]]");
+		
+      function ticket_payment_complete_action() {
+    	  
+    	  if($("#email_booking").val() != $("#email_booking2").val()) {
+    		  alert("이메일이 일치하지 않습니다.");
+    		  $("#email_booking2").removeClass("is-valid");
+    		  $("#email_booking2").addClass("is-invalid");
+    		  return false;
+    	  }
+    	  
+    	  let IMP = window.IMP; 
+          IMP.init("imp43548145"); 
+          
+          let pMethod = "";
+          if($("#pMethod").val() == 1) {
+        	  pMethod = "card";
+          }
+          
+          // 결제 금액
+          let amount = $("#totPrice2").text();
+          $("#amount").val(amount);
+          
+    	  /*[[${session.payment.pPrice}]]", */
+          IMP.request_pay({
+              pg : "html5_inicis", // KG이니시스 일반결제창 호출(상점아이디 MID-a 적용) // 카드, 페이 결제 다 되는데 나눌지 말지 고민중
+              pay_method : pMethod,
+              merchant_uid: "TI" + new Date().getTime(), // "[[${session.payment.pNo}]]", // 변경 TI20230427123122
+              name : "[[${session.ticket.tiTitle}]]",
+              amount : 100, // 테스트 용으로 100원만 결제 되게 해둠, 
+              buyer_email : "[[${session.loginUser.email}]]",
+              buyer_name : "[[${session.loginUser.name}]]",
+              buyer_tel : "[[${session.loginUser.phone}]]",
+              buyer_addr : "[[${session.loginUser.address}]]",
+          }, function (rsp) { // callback
+        	  
+     		  if(rsp.success && rsp.status == 'paid') {
+     		  	document.f.action='ticket-payment-complete-action';
+              	document.f.submit();
+     		  }
+        	  
+          });
+      }
+      
+      
+      $('#email_booking, #email_booking_2').on('keyup', function(){
+
+          $('.confirm-message').removeClass('success-message').removeClass('error-message');
+
+          let email_booking=$('#email_booking').val();
+          let email_booking_2=$('#email_booking_2').val();
+
+          if(email_booking===email_booking_2)
+          {
+              $('.confirm-message').text('이메일 확인이 완료되었습니다.').addClass('success-message');
+          }
+          else{
+              $('.confirm-message').text("이메일이 일치하지 않습니다.").addClass('error-message');
+          }
+
+      });
+      
+	
+	</script>
+
+
+</body>
+
+</html>

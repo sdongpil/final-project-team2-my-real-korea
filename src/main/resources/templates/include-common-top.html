@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="include-common-top">
+<header>
+		<div id="top_line">
+			<div class="container">
+				<div class="row">
+					<div class="col-6">
+					</div>
+					<div class="col-6">
+			            <ul id="top_links">
+                            <!-- 
+                            <li><a href="user_login_form" id="access_link">Sign in</a></li>
+                             -->
+	                    	<th:block th:if="${session.loginUser==null}">
+	                            <li><a href="user-login">로그인</a></li>
+	                        </th:block>
+	                        <th:block th:unless="${session.loginUser==null}">
+		                        <li><a href="user-logout-action">로그아웃</a></li>
+	                        </th:block>
+	                            <li><a href="wishlist" id="wishlist_link">위시리스트</a></li>
+	                            <li><a href="user-view">마이페이지</a></li>
+                        </ul>
+					</div>
+				</div>
+				<!-- End row -->
+			</div>
+			<!-- End container-->
+		</div>
+		<!-- End top line-->
+
+		<div class="container">
+			<div class="row">
+				<div class="col-3">
+					<div id="logo_home">
+						<h1>
+							<a href="index" title="마이리얼코리아 홈">City
+								Tours travel template</a>
+						</h1>
+					</div>
+				</div>
+				<nav class="col-9">
+					<a class="cmn-toggle-switch cmn-toggle-switch__htx open_close"
+						href="javascript:void(0);"><span>Menu mobile</span></a>
+					<div class="main-menu">
+						<div id="header_menu">
+							<img src="img/logo_myrealkorea_main1.png" width="160" height="34"
+								alt="City tours" data-retina="true">
+						</div>
+						<a href="#" class="open_close" id="close_in"><i
+							class="icon_set_1_icon-77"></i></a>
+						<ul>
+							<li class="submenu"><a href="tour-list"
+								class="show-submenu">투어 <i class="icon-down-open-mini"></i></a>
+								<ul>
+									<li><a href="tour-list">투어 상품</a></li>
+									 <li class="third-level"><a href="javascript:void(0);">지역별</a>
+                                        <ul>
+                                            <li th:each="city:${cityList}">
+                                            	<a th:name="${city.cityNo}" th:text="${city.cityName}"  th:href="@{tour-list(cityNo=${city.cityNo})}">서울</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+								</ul></li>
+							<li class="submenu"><a href="ticket-list"
+								class="show-submenu">티켓 <i class="icon-down-open-mini"></i></a>
+							<ul>
+									<li><a href="ticket-list">티켓 상품</a></li>
+									<li class="third-level"><a href="javascript:void(0);">지역별</a>
+                                        <ul>
+                                            <li th:each="city:${cityList}">
+                                            	<a th:name="${city.cityNo}" th:text="${city.cityName}"  th:href="@{ticket-list(cityNo=${city.cityNo})}">서울</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+								</ul></li>
+							<li class="submenu"><a href="tripboard-list"
+								class="show-submenu">동행 <i
+									class="icon-down-open-mini"></i></a>
+								<ul>
+									<li><a href="tripboard-list">동행 찾기</a></li>
+									<li class="third-level"><a href="javascript:void(0);">지역별</a>
+                                        <ul>
+                                            <li th:each="city:${cityList}">
+                                            	<a th:name="${city.cityNo}" th:text="${city.cityName}"  th:href="@{tripboard-city-bar-list(cityNo=${city.cityNo})}">서울</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+								</ul></li>
+							<li class="submenu"><a href="freeboard-list">자유게시판</a></li>
+							<li class="submenu"><a href="notice-list" class="show-submenu">공지사항</a></li>
+						</ul>
+					</div>
+					<!-- End main-menu -->
+					<ul id="top_tools">
+						<!-- Chat icon (수정해야함) -->
+						<th:block th:if="${session.loginUser!=null}">
+						<li>
+							<a href="#" th:data-user-id="${session.loginUser.userId}" id="chat-pop-up" >
+							<img src="img/chat-icon-include-top.png" title="채팅"></a></li>
+						</th:block>
+						<!-- End Chat icon -->
+						<!-- End dropdown-cart-->
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<!-- container -->
+	</header>
+<script src="js/app_chat_tripboard.js" type="module"></script>
+</div>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Citytours - Premium site template for city tours agencies, transfers and tickets.">
+    <meta name="author" content="Ansonika">
+    <title>마이리얼코리아-로그인</title>
+
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Gochi+Hand|Montserrat:300,400,700" rel="stylesheet">
+
+    <!-- COMMON CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	<link href="css/vendors.css" rel="stylesheet">
+	
+	<!-- CUSTOM CSS -->
+	<link href="css/custom.css" rel="stylesheet">
+	<link href="css/user.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css"/>
+	
+ 
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+</head>
+<body>
+
+    <!-- End Preload -->
+
+    <div class="layer"></div>
+    <!-- Mobile menu overlay mask -->
+
+	<!--======================== Header========================== -->
+	<div id="header" th:include="include-common-top::include-common-top"></div>
+	<!--======================== End Header======================== -->
+    
+	<main>
+    <section id="hero" class="login">
+    	<div class="container">
+        	<div class="row justify-content-center" >
+            	<div class="col-xl-4 col-lg-5 col-md-6 col-sm-8" >
+ 
+ 
+<!-- 로그인 폼 시작 -->            	
+<div id="login">
+<form id="user-login" th:object="${fuser!=null? fuser : new com.itwill.my_real_korea.dto.user.User()}" name="f" method="post">
+<input type="hidden" name="prevPage" value="${prevPage}">
+	<a href="https://kauth.kakao.com/oauth/authorize?client_id=71c35cfe878062dbd05a31281b8ccf41&redirect_uri=http://localhost:80/final-project-team2-my-real-korea/kakao-login&response_type=code">
+		<img src="img/kakao_login_medium_wide.png" />
+	</a>
+	<div class="divider"><span>Or</span></div>
+    <div class="form-group">
+        <label>아이디</label>
+        <input type="text" class=" form-control " name="userId">
+        <font color="red" th:text="${msg1}"></font>
+    </div>
+    <div class="form-group">
+        <label>비밀번호</label>
+        <input type="password" class=" form-control" name="password">
+        <font color="red" th:text="${msg2}"></font>
+    </div>
+		<p>
+		    <a href="user-find" id="menu-user-find">아이디 / 비밀번호 찾기</a><br/>
+		</p>
+	<input type="button" id="btn-user-login" value="로그인" class="btn_1 white">
+	<input type="button" id="btn-user-join" value="회원 가입" class="btn_1 outline">
+</form><br/>
+</div>
+<!-- 로그인 폼 끝 -->
+
+<script id="user-find-template" type="text/x-handlebars-template">
+
+<!-- 아이디 찾기 폼 시작 -->
+
+<form name="i" method="post">
+    <div class="form-group">
+        <label>이름</label>
+        <input type="text" class="form-control" name="name" id="name">
+    </div>
+    <div class="form-group">
+        <label>이메일</label>
+        <input type="text" class="form-control" name="email" id="email">
+    </div>
+		<input type="button" id="btn-user-find-id" value="아이디 찾기" class="btn_1 outline">
+</form>
+<!-- 아이디 찾기 폼 끝 -->
+
+<div class="divider"><span>Or</span></div>
+
+<!-- 비밀번호 찾기 폼 시작 -->
+<form name="p" method="post">
+    <div class="form-group">
+        <label>ID</label>
+        <input type="text" class=" form-control " name="userId">
+    </div>
+    <div class="form-group">
+        <label>이메일</label>
+        <input type="text" class=" form-control" name="email">
+    </div>
+		<input type="button" id="btn-user-find-pw" value="비밀번호 찾기" class="btn_1 outline">
+
+</form>
+<!-- 비밀번호 찾기 폼 끝 -->
+
+</script>
+<script id="user-auth-template" type="text/x-handlebars-template">
+<!--
+	<div class="text-center"><img src="img/logo_myrealkorea_main2.png" alt="Image" data-retina="true" ></div>
+<br/>
+	<hr>
+-->
+<br/>
+	<form name="a" method="post">
+	    <div class="form-group">
+			<label>인증코드</label>
+	        <input type="text" class="form-control" name="mailAuthKey">
+	    </div>
+			<span>이메일로 발송된 인증코드를 입력해주세요.</span>
+<br/><br/>
+		<input type="button" id="btn-user-auth" value="인증 확인" class="btn_1 outline">
+	</form><br/>
+</script>
+
+                        
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+	</main><!-- End main -->
+	<!--========================= footer ========================-->
+	<footer class="revealed">
+		<div id="footer" th:include="include-common-bottom::include-common-bottom"></div>
+	</footer>
+		<!-- End container -->
+	<!--========================= End footer ========================-->
+
+	<div id="toTop"></div><!-- Back to top button -->
+	
+	<!-- Search Menu -->
+	<!-- End Search Menu -->
+
+	<!-- Common scripts -->
+	<script src="js/jquery-2.2.4.min.js"></script>
+	<script src="js/common_scripts_min.js"></script>
+	<script src="js/functions.js"></script>
+	<script src="js/app_user.js" type="module"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
+  </body>
+</html>
